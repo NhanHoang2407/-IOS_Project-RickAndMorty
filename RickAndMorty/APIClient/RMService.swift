@@ -16,6 +16,6 @@ final class RMService {
     
     /// function to make API CAll
     func execute(request: RMRequest, completion: @escaping ()->Void) -> Void {
-        <#function body#>
+        print("executed")
     }
 }
