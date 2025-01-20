@@ -16,5 +16,8 @@ final class RMEpisodeViewController: UIViewController {
         view.backgroundColor = UIColor.clear
         // Do any additional setup after loading the view.
     }
+    deinit{
+        print("Episode: Deinit")
+    }
 
 }

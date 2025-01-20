@@ -16,5 +16,8 @@ final class RMLocationViewController: UIViewController {
         view.backgroundColor = UIColor.clear
         // Do any additional setup after loading the view.
     }
-
+    
+    deinit {
+        print("Location: Deinit")
+    }
 }

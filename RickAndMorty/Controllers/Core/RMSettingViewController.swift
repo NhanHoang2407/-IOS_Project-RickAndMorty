@@ -17,6 +17,8 @@ final class RMSettingViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-
+    deinit {
+        print("Setting: Deinit")
+    }
 
 }
