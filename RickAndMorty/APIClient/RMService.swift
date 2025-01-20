@@ -27,6 +27,7 @@ final class RMService {
             completion(Result.failure(APIError.invalidURL))
             return
         }
+        print("URL: \(url)")
         URLSession.shared.dataTask(with: url) { data, _, error in
             guard let data = data, error == nil else {
                 completion(Result.failure(APIError.noData))

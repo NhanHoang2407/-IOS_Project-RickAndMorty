@@ -68,9 +68,14 @@ final class RMRequest {
             let components = trimmed.components(separatedBy: "/")
             if !components.isEmpty{
                 let endpoint = components[0]
+                var pathComponents: [String] = []
+                if components.count > 1 {
+                    pathComponents = components
+                    pathComponents.removeFirst()
+                }
 
                 if let rmEndpoint = RMEndpoint(rawValue: endpoint) {
-                    self.init(endPoint: rmEndpoint)
+                    self.init(endPoint: rmEndpoint, pathComponents: pathComponents)
                     return
                 }
 
@@ -81,6 +86,9 @@ final class RMRequest {
                 let endpoint = components[0]
                 let queryItemsString = components[1]
                 let queryItems: [URLQueryItem] = queryItemsString.components(separatedBy: "&").compactMap({
+                    guard $0.contains("=") else {
+                        return nil
+                    }
                     let queryComponents = $0.components(separatedBy: "=")
                     return URLQueryItem(name: queryComponents[0], value: queryComponents[1])
                 })

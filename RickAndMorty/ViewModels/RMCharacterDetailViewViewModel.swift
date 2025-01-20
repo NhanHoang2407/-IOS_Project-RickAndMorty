@@ -10,6 +10,7 @@ import Foundation
 
 final class RMCharacterDetailViewViewModel {
     private let character: RMCharacter
+    
     public var title: String {
         return character.name.uppercased()
     }

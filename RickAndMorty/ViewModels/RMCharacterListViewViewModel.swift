@@ -86,9 +86,10 @@ final class RMCharacterListViewViewModel: NSObject {
                 print("characters: \(self?.characterArray.count ?? 0) cellModels: \(self?.cellViewModelArray.count ?? 0)")
                 DispatchQueue.main.async {
                     weakSelf.delegate?.didLoadMoreCharacters(with: indexPathsToAdd)
-                    weakSelf.isLoadingData = false
+                    DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
+                        weakSelf.isLoadingData = false
+                    }
                 }
-                print(String.init(describing: data))
             case .failure(let error):
                 weakSelf.isLoadingData = false
                 print(String.init(describing: error))
