@@ -1,31 +1,33 @@
 //
-//  CharacterListView.swift
+//  RMEpisodeListView.swift
 //  RickAndMorty
 //
-//  Created by IC DEV on 12/2/24.
-//  Copyright © 2024 IC DEV. All rights reserved.
+//  Created by Nhan Hoang on 21/2/25.
+//  Copyright © 2025 IC DEV. All rights reserved.
 //
 
 import UIKit
 
-protocol RMCharacterListViewDelegate: AnyObject {
-    func rmCharacterListView(_ characterListView: RMCharacterListView, didSelectCharacter character: RMCharacter)
+
+protocol RMEpisodeListViewDelegate: AnyObject {
+    func rmEpisodeListView(_ episodeListView: RMEpisodeListView, didSelectEpisode episode: RMEpisode)
 }
 
-// view handles showing list of characters
-class RMCharacterListView: UIView {
-    
-    var delegate: RMCharacterListViewDelegate?
+class RMEpisodeListView: UIView {
+
+    var delegate: RMEpisodeListViewDelegate?
     
     // ViewModel for character list
-    let viewModel = RMCharacterListViewViewModel()
+    let viewModel = RMEpisodeListViewViewModel()
     
     // loading spinner appearing before data fetched
     let spinner: UIActivityIndicatorView = {
-        let spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+        let spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.large)
         spinner.hidesWhenStopped = true
         spinner.color = UIColor.black
+        spinner.startAnimating()
         spinner.translatesAutoresizingMaskIntoConstraints = false
+        
         return spinner
     }()
     
@@ -34,7 +36,7 @@ class RMCharacterListView: UIView {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         let collection: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collection.register(RMCharacterCollectionViewCell.self, forCellWithReuseIdentifier: RMCharacterCollectionViewCell.cellIdentifier)
+        collection.register(RMCharacterDetailEpisodeViewCell.self, forCellWithReuseIdentifier: RMCharacterDetailEpisodeViewCell.rmCharacterDetailPhotoViewCellIdentifier)
         collection.register(RMLoadingFooterCollectionReusableView.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionFooter", withReuseIdentifier: RMLoadingFooterCollectionReusableView.identifier)
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.backgroundColor = UIColor.white
@@ -50,7 +52,7 @@ class RMCharacterListView: UIView {
         addConstraints()
         
         spinner.startAnimating()
-        viewModel.fetchCharacters()
+        viewModel.fetchEpisodes()
         viewModel.delegate = self
         setUpCollectionView()
     }
@@ -84,20 +86,20 @@ class RMCharacterListView: UIView {
 
 }
 
-extension RMCharacterListView: RMCharacterListViewViewModelDelegate {
-    func didLoadMoreCharacters(with newIndexPaths: [IndexPath]) {
-        collectionView.performBatchUpdates({
-            self.collectionView.insertItems(at: newIndexPaths)
-        })
-    } 
-    
-    func didSelectCharacter(_ character: RMCharacter) {
-        delegate?.rmCharacterListView(self, didSelectCharacter: character)
-    }
-    
-    func didLoadInitialCharacters() {
+extension RMEpisodeListView: RMEpisodeListViewViewModelDelegate {
+    func didLoadInitialEpisodes() {
         spinner.stopAnimating()
         collectionView.isHidden = false
         collectionView.reloadData()
+    }
+    
+    func didSelectEpisode(_ episode: RMEpisode) {
+        delegate?.rmEpisodeListView(self, didSelectEpisode: episode)
+    }
+    
+    func didLoadMoreEpisodes(with newIndexPaths: [IndexPath]) {
+        collectionView.performBatchUpdates({
+            self.collectionView.insertItems(at: newIndexPaths)
+        })
     }
 }

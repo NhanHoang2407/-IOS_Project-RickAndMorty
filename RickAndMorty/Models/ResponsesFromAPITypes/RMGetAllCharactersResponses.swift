@@ -10,12 +10,12 @@ import Foundation
 
 // list of characters including info of list
 struct RMGetAllCharactersResponses: Codable {
-    struct Infor: Codable {
-        let count: Int
-        let pages: Int
-        let next: String?
-        let prev: String?
-    }
+//    struct Infor: Codable {
+//        let count: Int
+//        let pages: Int
+//        let next: String?
+//        let prev: String?
+//    }
     let info: Infor
     let results: [RMCharacter]
 }

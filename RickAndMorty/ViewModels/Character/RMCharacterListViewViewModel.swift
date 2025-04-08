@@ -30,12 +30,12 @@ final class RMCharacterListViewViewModel: NSObject {
         }
     }
     private var cellViewModelArray: [RMCharacterCollectionViewCellViewModel] = []
-    private var apiInfor: RMGetAllCharactersResponses.Infor? = nil
+    private var apiInfor: Infor? = nil
     
     // fetch characters from api
     func fetchCharacters(){
         RMService.shared.execute(request: .listCharactersRequests, expecting: RMGetAllCharactersResponses.self) { [weak self] (result) in
-            switch result{
+            switch result {
             case .success(let data):
                 self?.characterArray = data.results
                 self?.apiInfor = data.info
@@ -56,11 +56,7 @@ final class RMCharacterListViewViewModel: NSObject {
     
     
     public func fetchAdditionalCharacters(url: URL) {
-//        guard !isLoadingData else {
-//            return
-//        }
         isLoadingData = true
-        print("Fetching Data")
         guard let request = RMRequest(url: url) else {
             print("Fail to load data")
             isLoadingData = false
@@ -81,9 +77,6 @@ final class RMCharacterListViewViewModel: NSObject {
                 })
                 weakSelf.characterArray.append(contentsOf: data.results)
                 weakSelf.apiInfor = data.info
-                
-                
-                print("characters: \(self?.characterArray.count ?? 0) cellModels: \(self?.cellViewModelArray.count ?? 0)")
                 DispatchQueue.main.async {
                     weakSelf.delegate?.didLoadMoreCharacters(with: indexPathsToAdd)
                     DispatchQueue.global().asyncAfter(deadline: .now() + 1) {

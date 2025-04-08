@@ -25,7 +25,7 @@ class RMLoadingFooterCollectionReusableView: UICollectionReusableView {
     
     // loading spinner appearing before data fetched
     let spinner: UIActivityIndicatorView = {
-        let spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+        let spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.large)
         spinner.hidesWhenStopped = true
         spinner.color = UIColor.black
         spinner.translatesAutoresizingMaskIntoConstraints = false

@@ -80,13 +80,13 @@ extension RMCharacterCollectionViewCell: RMCharacterCollectionViewCellViewModelD
     func setUpCell(viewModel: RMCharacterCollectionViewCellViewModel) {
         nameLabel.text = viewModel.characterName
         statusLabel.text = "Status: " + viewModel.characterStatusText
-        
-        viewModel.loadImg(){ [weak self] result in
+        guard let imgURL = viewModel.characterImgUrl else {
+            return
+        }
+        ImgLoader.shared.loadImg(url: imgURL) { [weak self] result in
             switch result{
             case .success(let data):
-                DispatchQueue.main.async {
-                    self?.image.image = UIImage(data: data)
-                }
+                self?.image.image = UIImage(data: data)
             case .failure(let error):
                 print(error)
             }

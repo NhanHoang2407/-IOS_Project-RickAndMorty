@@ -15,7 +15,7 @@ protocol RMCharacterCollectionViewCellViewModelDelegate: AnyObject {
 final class RMCharacterCollectionViewCellViewModel {
     let characterName: String
     private let characterStatus: RMCharacterStatus
-    private let characterImgUrl: URL?
+    public let characterImgUrl: URL?
     public var characterStatusText: String {
         return characterStatus.text
     }
@@ -26,23 +26,6 @@ final class RMCharacterCollectionViewCellViewModel {
         self.characterName = characterName
         self.characterStatus  = characterStatus
         self.characterImgUrl = characterImg
-    }
-    
-    func loadImg(completion: @escaping(Result<Data, APIError>)->Void) {
-        guard let characterImgUrl = characterImgUrl else {
-            completion(.failure(.invalidURL))
-            return
-        }
-        let request = URLRequest(url: characterImgUrl)
-        let task = URLSession.shared.dataTask(with: request) { data, _, error in
-            guard let data = data, error == nil else {
-                print("Can't download character's image.")
-                completion(.failure(.noData))
-                return
-            }
-            completion(.success(data))
-        }
-        task.resume()
     }
     
     func loadCell() {
